@@ -1,6 +1,7 @@
 ---
 name: tailored-resume-generator
 description: Use when tailoring a resume, CV, Lebenslauf, Anschreiben, cover letter, or application package to a job description, especially for Germany/DACH, ATS, career transitions, student roles, or tech roles. Maps requirements to truthful evidence and produces market-appropriate documents with gap analysis and interview guidance. Trigger terms: tailored resume, CV, Lebenslauf, Bewerbung, Anschreiben, cover letter, job description, ATS, Germany, DACH, Werkstudent, Praktikum, career transition.
+license: MIT
 ---
 
 # Tailored Resume Generator

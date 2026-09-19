@@ -1,163 +1,107 @@
-# Tailored Resume Generator (OpenCode Skill)
+# CV Tailor
 
-An [OpenCode](https://opencode.ai) skill that turns a job advertisement plus a
-candidate's real background into a market-appropriate, ATS-safe application
-package: a tailored resume/CV/Lebenslauf, a conditional cover letter/Anschreiben,
-an attachment plan, a requirement-to-evidence gap analysis, and interview prep.
-
-It is deliberately **evidence-led and anti-fabrication**: it maps every job
-requirement to real candidate evidence and refuses to invent metrics,
-qualifications, language levels, or visa status.
-
-It has first-class support for the **German / DACH** market (Lebenslauf,
-Anschreiben, Bewerbungsfoto/AGG, Arbeitszeugnisse, salary and start-date
-conventions, foreign-degree recognition) while remaining usable for
-international and tech applications.
+An [OpenCode](https://opencode.ai) skill that rewrites your resume, CV, or cover
+letter to match a specific job ad — without inventing anything. It maps every
+requirement to your real experience, flags the gaps, and formats the result so
+it survives applicant tracking systems (ATS). It knows the **German / DACH**
+application rules (Lebenslauf, Anschreiben, photo, Arbeitszeugnisse) and works
+just as well for international and tech roles.
 
 ---
 
-## What it does
+## Quick start
 
-- **Tailors to the ad.** Extracts must-have vs. nice-to-have requirements,
-  exact terminology, and scope signals, then maps each to candidate evidence
-  graded Direct / Transferable / Unconfirmed / Gap.
-- **Never fabricates.** Uses `[metric needed]` / `[confirm]` placeholders in
-  drafts; a submission-ready document must have completed wording or an honest
-  omission (enforced by a final Quality Gate).
-- **Hardens for ATS.** Single-column, parse-safe layout; standard headings;
-  consistent dates; contact details in the body; no tables/sidebars/graphics in
-  core content; DOCX/PDF guidance; per-system notes for the ATS common in
-  Germany.
-- **Applies German market rules.** Correct `tabellarischer Lebenslauf` structure
-  (a *visual* date-left/content-right split, not a real table), conditional
-  Anschreiben, contextual photo decisions, salary/availability conventions, and
-  Anlagen ordering.
-- **Adapts by profile.** Distinct handling for student/Werkstudent/Praktikum,
-  graduate, professional, senior, career-changer, tech/English, and
-  public-sector applications.
-- **Reports gaps and next steps.** Strengths, risks, verification requests, and
-  three to five interview stories.
-
-## Language policy
-
-Explanations and generated documents default to **English**. The skill switches
-to **German** when the user asks or when the employer requires German-language
-documents, and it always preserves the advertisement's German terms in the
-keyword map. It keeps a single language per document.
-
----
-
-## Installation
-
-OpenCode auto-discovers skills from its skill directories. Pick one:
-
-### Global (available in every project)
+**1. Install** (clone into your OpenCode skills folder — keep the folder name):
 
 ```bash
 # macOS / Linux
-git clone https://github.com/<you>/tailored-resume-generator \
+git clone https://github.com/schatten007/cv-tailor \
   ~/.config/opencode/skills/tailored-resume-generator
 ```
 
 ```powershell
 # Windows (PowerShell)
-git clone https://github.com/<you>/tailored-resume-generator `
+git clone https://github.com/schatten007/cv-tailor `
   "$env:USERPROFILE\.config\opencode\skills\tailored-resume-generator"
 ```
 
-### Per project
+**2. Restart OpenCode** (skills load at startup).
 
-Copy the `tailored-resume-generator/` folder into your repo at
-`.opencode/skills/tailored-resume-generator/`.
+**3. Ask for it** — paste a job ad and your background:
 
-### Via config path
+```
+Tailor my CV to this job ad.
 
-Point `skills.paths` at wherever you keep it:
+[paste the job ad]
+
+My background:
+[paste your resume or work history]
+```
+
+That's it. The more detail you give (numbers, tools, dates), the better the
+result. It will ask about anything important that's missing.
+
+---
+
+## What you get
+
+- A tailored **resume / CV / Lebenslauf**
+- A **cover letter / Anschreiben** — only when the role actually needs one
+- A **gap analysis**: what matches, what's missing, what to confirm
+- An **ATS-safe layout** that parsers can read
+- **Interview prep**: talking points and questions to ask
+
+## Why it's different
+
+- **It won't lie for you.** No invented metrics, titles, or language levels. It
+  marks unknowns with `[confirm]` instead of guessing.
+- **It knows Germany.** Correct Lebenslauf structure, when a photo helps or
+  hurts, salary and start-date phrasing, and which documents to attach.
+- **It survives the robots.** Single-column, standard headings, clean dates —
+  tuned for the ATS common in Germany (Personio, SAP SuccessFactors, Workday,
+  and more).
+- **It adapts.** Student/Werkstudent, graduate, professional, career-changer,
+  tech, and public-sector applications each get the right treatment.
+
+Documents default to **English**; it switches to **German** when you ask or the
+employer requires it.
+
+---
+
+## How it's built
+
+`SKILL.md` holds the workflow. It pulls in detail on demand from `references/`:
+
+| File | What it covers |
+| --- | --- |
+| `references/germany-standards.md` | German market rules, CV/Anschreiben/photo, career-stage variants |
+| `references/ats-germany.md` | ATS parse-safe checklist and per-system notes |
+| `references/templates.md` | Ready-to-fill document skeletons |
+| `references/ats-keywords-de.md` | German/English headings and keyword mapping |
+
+## Alternative install (config path)
+
+If you keep skills elsewhere, point OpenCode at the folder instead of cloning
+into the default location:
 
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "skills": {
-    "paths": ["~/dev/opencode-skills"]
-  }
+  "skills": { "paths": ["~/dev/opencode-skills"] }
 }
 ```
 
-The folder **must** contain `SKILL.md`, and the `name` in its frontmatter must
-match the folder name (`tailored-resume-generator`).
+The folder must contain `SKILL.md`, and its frontmatter `name`
+(`tailored-resume-generator`) must match the folder name.
 
-**Restart OpenCode after installing or editing the skill** — skills are loaded
-at startup and are not hot-reloaded.
+## Good to know
 
-### Verify
-
-Start OpenCode and confirm the skill is listed (it appears in the available
-skills), then trigger it with a request such as *"Tailor my CV to this job ad."*
-
----
-
-## Usage
-
-The skill activates on requests about resumes, CVs, Lebenslauf, Anschreiben,
-cover letters, ATS optimization, or German/DACH applications. Give it:
-
-1. The **full job advertisement** (language, requirements, requested documents,
-   salary wording, start date, reference number).
-2. Your **background** — an existing resume or a work history with roles,
-   employers, dates, tools, scope, and outcomes; education; certifications;
-   languages with honest CEFR levels; relevant Arbeitszeugnisse.
-3. Any **preferences** — target market, output language, career stage, format.
-
-Example:
-
-```
-Tailor my CV to this Werkstudent Data Analytics role in Munich.
-[paste job ad]
-Here is my background:
-[paste resume or history]
-```
-
-The more concrete evidence you provide (numbers, scope, tools), the stronger the
-result. The skill will ask for anything that materially affects accuracy and
-flag what still needs confirming.
-
----
-
-## Files
-
-| File | Purpose |
-| --- | --- |
-| `SKILL.md` | Entry point: operating defaults, workflow, quality gate. |
-| `references/germany-standards.md` | German market decision matrix, CV/Anschreiben/photo/Anlagen rules, career-stage variants, international applicants. |
-| `references/ats-germany.md` | ATS parse-safe checklist and per-system notes (SuccessFactors, Workday, Personio, softgarden/rexx/d.vinci, Greenhouse/Lever/Ashby, Taleo/iCIMS), with vendor sources. |
-| `references/templates.md` | ATS-safe document skeletons: German Lebenslauf, student, English-tech CV, Anschreiben, application email, attachment plan. |
-| `references/ats-keywords-de.md` | German/English heading pairs, keyword extraction/mapping rules, keyword families, quality gate. |
-
-Reference files are loaded on demand by `SKILL.md`, so the skill stays lean until
-a given concern (German rules, ATS hardening, templates, keywords) is relevant.
-
----
-
-## Scope and limitations
-
-- **Not legal, tax, or immigration advice.** German legal, salary, and
-  document rules are provided as guidance; the candidate confirms current
-  requirements before submitting.
-- **Germany-focused.** Austria is broadly similar; Switzerland differs. Do not
-  assume AT/CH practice from a German rule.
-- **ATS behavior is not guaranteed.** Parser notes are documented or commonly
-  reported behavior and vary by configuration. The copy/paste extraction check
-  approximates parsing; it does not replicate a specific vendor's parser.
-- **The candidate owns the truth.** The skill will not invent experience; you
-  must supply and verify the facts.
-
-## Sources
-
-Per-system ATS notes prefer primary vendor documentation (Personio, Workday,
-Greenhouse, SAP SuccessFactors KBA), supplemented by lower-confidence résumé
-guidance. See the Sources section of `references/ats-germany.md` for the list.
+- **Not legal or immigration advice.** German rules are guidance — confirm
+  current requirements before you submit.
+- **Germany-focused.** Austria is similar; Switzerland differs. Don't assume.
+- **ATS notes aren't guarantees.** Parser behavior varies by setup.
+- **You own the facts.** It tailors your real experience; it doesn't fabricate.
 
 ## License
 
-Add a license before publishing (MIT is a common choice for skills). Include a
-`LICENSE` file in the repository root.
+[MIT](LICENSE) © 2026 schatten007
