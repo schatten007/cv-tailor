@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Source-backed career profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "sources", "facts"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "field", "value", "status", "source_ids"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "field": {"type": "string", "minLength": 1},
+          "value": {},
+          "status": {"enum": ["confirmed", "unconfirmed", "conflict"]},
+          "source_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+          "notes": {"type": "string"},
+          "alternatives": {
+            "type": "array", "minItems": 2,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["value", "source_ids"],
+              "properties": {
+                "value": {},
+                "source_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+              }
+            }
+          }
+        },
+        "allOf": [{"if": {"properties": {"status": {"const": "conflict"}}}, "then": {"required": ["alternatives"]}}]
+      }
+    }
+  }
+}

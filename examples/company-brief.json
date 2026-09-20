@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "company": "Example Employer (synthetic)",
+  "job_url": "https://example.invalid/jobs/42",
+  "researched_at": "2026-09-20",
+  "sources": [{"id": "job-42", "title": "Synthetic job advertisement", "url": "https://example.invalid/jobs/42", "accessed_at": "2026-09-20"}],
+  "findings": [
+    {"id": "data-quality", "topic": "role", "statement": "The example advertisement lists data validation as a responsibility.", "status": "fact", "source_ids": ["job-42"], "candidate_fact_ids": ["python"], "writing_angle": "Connect the candidate's actual validation work to this responsibility."},
+    {"id": "culture", "topic": "culture", "statement": "No evidence of day-to-day team culture was supplied.", "status": "unknown", "source_ids": []}
+  ],
+  "ats": {"vendor": null, "status": "unknown", "source_ids": []}
+}

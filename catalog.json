@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "skills": {
+    "tailored-resume-generator": ".",
+    "master-cv": "skills/master-cv",
+    "company-research": "skills/company-research",
+    "cover-letter": "skills/cover-letter",
+    "interview-prep": "skills/interview-prep",
+    "application-assistant": "skills/application-assistant"
+  }
+}

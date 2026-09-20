@@ -1,0 +1,7 @@
+{
+  "type": "plan",
+  "required_sections": ["personal", "experience", "documents"],
+  "upload_fields": [
+    {"id": "resume", "required": true, "document_ids": ["cv"], "accept": [".pdf", ".docx"], "max_files": 1, "max_bytes": 5242880}
+  ]
+}
