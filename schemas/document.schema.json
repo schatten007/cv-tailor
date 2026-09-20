@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Final single-column document",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "kind", "language", "status", "title", "sections"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "kind": {"enum": ["cv", "cover-letter", "supporting"]},
+    "language": {"type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$"},
+    "status": {"const": "final"},
+    "title": {"type": "string", "minLength": 1},
+    "contact": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "sections": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "properties": {
+          "heading": {"type": "string"},
+          "paragraphs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "entries": {
+            "type": "array", "minItems": 1,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["heading"],
+              "properties": {
+                "heading": {"type": "string", "minLength": 1},
+                "subheading": {"type": "string"},
+                "dates": {"type": "string"},
+                "bullets": {"type": "array", "items": {"type": "string", "minLength": 1}}
+              }
+            }
+          }
+        },
+        "anyOf": [{"required": ["paragraphs"]}, {"required": ["entries"]}]
+      }
+    }
+  }
+}

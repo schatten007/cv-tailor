@@ -1,0 +1,8 @@
+-r scripts/requirements.txt
+pytest>=8,<10
+pytest-cov>=6,<8
+PyYAML>=6,<7
+types-jsonschema
+black>=25,<27
+ruff>=0.11,<1
+mypy>=1.15,<2

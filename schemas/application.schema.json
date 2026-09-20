@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Review-only application ledger",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "mode", "phase", "job", "selected_documents", "required_sections", "upload_fields", "sections", "uploads", "observation", "blocker", "updated_at"],
+  "$defs": {
+    "strings": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "upload_field": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "required", "document_ids", "accept", "max_files", "max_bytes"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "required": {"type": "boolean"},
+        "document_ids": {"$ref": "#/$defs/strings"},
+        "accept": {"type": "array", "uniqueItems": true, "items": {"enum": [".pdf", ".docx", ".png", ".jpg", ".jpeg"]}},
+        "max_files": {"type": ["integer", "null"], "minimum": 1},
+        "max_bytes": {"type": ["integer", "null"], "minimum": 1}
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": 1},
+    "mode": {"const": "review-only"},
+    "phase": {"enum": ["inspecting", "filling", "blocked", "review-ready"]},
+    "job": {
+      "type": "object", "additionalProperties": false,
+      "required": ["company", "reference", "url"],
+      "properties": {
+        "company": {"type": "string", "minLength": 1},
+        "reference": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri"}
+      }
+    },
+    "selected_documents": {"$ref": "#/$defs/strings"},
+    "required_sections": {"$ref": "#/$defs/strings"},
+    "upload_fields": {"type": "array", "items": {"$ref": "#/$defs/upload_field"}},
+    "sections": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false,
+        "required": ["status", "missing_fields", "unconfirmed_fields", "portal_saved", "evidence"],
+        "properties": {
+          "status": {"enum": ["verified", "needs-input", "needs-recheck"]},
+          "missing_fields": {"$ref": "#/$defs/strings"},
+          "unconfirmed_fields": {"$ref": "#/$defs/strings"},
+          "portal_saved": {"type": "boolean"},
+          "evidence": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "uploads": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false,
+        "required": ["document_ids", "hashes", "status", "evidence"],
+        "properties": {
+          "document_ids": {"$ref": "#/$defs/strings"},
+          "hashes": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+          "status": {"enum": ["verified", "needs-recheck"]},
+          "evidence": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "observation": {
+      "type": ["object", "null"], "additionalProperties": false,
+      "required": ["url", "company", "reference", "final_action", "validation_errors", "evidence"],
+      "properties": {
+        "url": {"type": "string", "format": "uri"},
+        "company": {"type": "string", "minLength": 1},
+        "reference": {"type": "string", "minLength": 1},
+        "final_action": {"enum": ["continue", "submit_application", "unknown"]},
+        "validation_errors": {"$ref": "#/$defs/strings"},
+        "evidence": {"type": "string", "minLength": 1}
+      }
+    },
+    "blocker": {
+      "type": ["object", "null"], "additionalProperties": false,
+      "required": ["reason", "detail"],
+      "properties": {
+        "reason": {"enum": ["login", "signup", "captcha", "mfa", "verification", "missing-input", "unsupported", "session-expired"]},
+        "detail": {"type": "string", "minLength": 1}
+      }
+    },
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}

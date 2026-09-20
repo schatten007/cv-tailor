@@ -7,3 +7,26 @@ Thumbs.db
 # Local candidate data — never publish personal application material
 /private/
 *.local.md
+
+# Private workspaces and browser state
+/career-workspace/
+/applications/
+*.local.json
+auth-state*.json
+storage-state*.json
+.env
+.env.*
+
+# Local tooling and test output
+.venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage*
+htmlcov/
+test-results/
+playwright-report/
+dist/

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence-backed company brief",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "company", "researched_at", "sources", "findings", "ats"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "company": {"type": "string", "minLength": 1},
+    "job_url": {"type": "string", "format": "uri"},
+    "researched_at": {"type": "string", "format": "date"},
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "title", "url", "accessed_at"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "url": {"type": "string", "format": "uri"},
+          "accessed_at": {"type": "string", "format": "date"}
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "topic", "statement", "status", "source_ids"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "topic": {"type": "string", "minLength": 1},
+          "statement": {"type": "string", "minLength": 1},
+          "status": {"enum": ["fact", "inference", "unknown"]},
+          "source_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "candidate_fact_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "writing_angle": {"type": "string"}
+        }
+      }
+    },
+    "ats": {
+      "type": "object", "additionalProperties": false,
+      "required": ["vendor", "status", "source_ids"],
+      "properties": {
+        "vendor": {"type": ["string", "null"]},
+        "status": {"enum": ["confirmed", "likely", "unknown"]},
+        "source_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    }
+  }
+}

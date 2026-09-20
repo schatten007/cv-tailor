@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "kind": "cv",
+  "language": "en",
+  "status": "final",
+  "title": "Alex Example",
+  "contact": ["Berlin, Germany", "alex@example.invalid"],
+  "sections": [
+    {
+      "heading": "Education",
+      "entries": [
+        {"heading": "BSc Computer Science", "subheading": "Example University", "dates": "10/2024 - Present"}
+      ]
+    },
+    {
+      "heading": "Projects",
+      "entries": [
+        {"heading": "Course reporting project", "dates": "04/2026 - 06/2026", "bullets": ["Built a Python script to summarize synthetic course data and document validation errors."]}
+      ]
+    },
+    {"heading": "Skills", "paragraphs": ["Python, SQL; German B2 (self-assessed), English C1 (self-assessed)"]}
+  ]
+}
